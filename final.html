@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Mini Quiz Bonito</title>
+
+	<style>
+		body {
+			font-family: 'Arial', sans-serif;
+			margin: 0;
+			height: 100vh;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			background: linear-gradient(135deg, #ffb6c1, #c084fc);
+		}
+
+		/* TARJETA PRINCIPAL */
+		#quiz-box {
+			background: white;
+			width: 450px;
+			padding: 30px;
+			border-radius: 20px;
+			box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+			text-align: center;
+			animation: fadeIn 0.6s ease;
+		}
+
+		/* TÍTULO */
+		h2 {
+			color: #7c3aed;
+			font-size: 26px;
+			margin-bottom: 25px;
+		}
+
+		/* BOTONES */
+		button {
+			display: block;
+			width: 100%;
+			margin: 10px 0;
+			padding: 15px;
+			font-size: 18px;
+			border: none;
+			border-radius: 12px;
+			cursor: pointer;
+			background: linear-gradient(135deg, #ff8fab, #c084fc);
+			color: white;
+			transition: 0.3s;
+			box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+		}
+
+		button:hover {
+			transform: scale(1.05);
+			opacity: 0.9;
+		}
+
+		/* TARJETA FINAL */
+		#card {
+			display: none;
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: rgba(0, 0, 0, 0.7);
+			justify-content: center;
+			align-items: center;
+		}
+
+		#card-content {
+			background: linear-gradient(135deg, #ffb6c1, #c084fc);
+			padding: 60px;
+			border-radius: 25px;
+			font-size: 32px;
+			color: white;
+			text-align: center;
+			transform: scale(0);
+			animation: openCard 1s forwards;
+			box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+		}
+
+		/* ANIMACIONES */
+		@keyframes openCard {
+			to {
+				transform: scale(1);
+			}
+		}
+
+		@keyframes fadeIn {
+			from {
+				opacity: 0;
+				transform: translateY(20px);
+			}
+
+			to {
+				opacity: 1;
+				transform: translateY(0);
+			}
+		}
+	</style>
+</head>
+
+<body>
+
+	<div id="quiz-box">
+		<h2 id="question">Pregunta</h2>
+		<div id="answers"></div>
+	</div>
+
+	<div id="card">
+		<div id="card-content">🎉 ¡HAS SUUUPER GANARO! 🎉</div>
+	</div>
+
+	<script>
+		const questions = [{
+				q: "Cuando es nuestro aniversario?",
+				a: ["26/01/2025", "26/01/2026", "25/01/2025"],
+				correct: 0
+			},
+			{
+				q: "Donde cenamos por 1ra vez?",
+				a: ["Tagliatella", "Casa Carmen", "Burguer King"],
+				correct: 1
+			},
+			{
+				q: "Donde fue nuestro primer beso?",
+				a: ["Gran Via2", "Splau", "En el coche"],
+				correct: 0
+			},
+			{
+				q: "A que te invite la primera vez que hablamos por tinder?",
+				a: ["A un colacao", "A un cafe", "A un nesquik"],
+				correct: 1
+			},
+			{
+				q: "Cual fue nuestro primer viaje?",
+				a: ["Valladolid", "Alicante", "Andorra"],
+				correct: 2
+			}
+		];
+
+		let current = 0;
+
+		function loadQuestion() {
+			const q = questions[current];
+			document.getElementById("question").innerText = q.q;
+
+			const answersDiv = document.getElementById("answers");
+			answersDiv.innerHTML = "";
+
+			q.a.forEach((ans, i) => {
+				const btn = document.createElement("button");
+				btn.innerText = ans;
+				btn.onclick = () => checkAnswer(i);
+				answersDiv.appendChild(btn);
+			});
+		}
+
+		function checkAnswer(i) {
+			if (i === questions[current].correct) {
+				current++;
+				if (current === questions.length) {
+					showCard();
+				} else {
+					loadQuestion();
+				}
+			} else {
+				current = 0;
+				alert("Noviaaaa no te acuerras?🥺 ");
+				loadQuestion();
+			}
+		}
+
+		function showCard() {
+			document.getElementById("card").style.display = "flex";
+		}
+
+		loadQuestion();
+	</script>
+
+</body>
+
+</html>
